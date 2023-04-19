@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            List des patients
+        </div>
+        <div class="card-body">
+            <form method="get", th:action="@{index}">
+                <label> Nom : </label>
+                <input type="text" name="Nom" th:value="${Nom}">
+                <button type="submit" class="btn btn-primary">Chercher</button>
+            </form>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Date of birth</th>
+                        <th>Sick</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="patient:${listPatients}">
+                        <td th:text="${patient.id}"></td>
+                        <td th:text="${patient.nom}"></td>
+                        <td th:text="${patient.dateNaissance}"></td>
+                        <td th:text="${patient.malade}"></td>
+                        <td th:text="${patient.score}"></td>
+                        <td>
+                            <a onclick="return confirm('Etes vous sure?')" class="btn btn-danger"
+                                th:href="@{delete(id=${patient.id}, Nom=${Nom}, page=${currentPage})}"
+                            >
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li th:each="page,status:${pages}" class="page-item">
+                        <a th:text="${status.index}"
+                           class="page-link"
+                           th:href="@{index(page=${status.index}, Nom=${Nom})}">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
